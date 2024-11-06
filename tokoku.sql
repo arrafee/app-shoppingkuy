@@ -1,220 +1,134 @@
--- phpMyAdmin SQL Dump
--- version 4.8.5
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Waktu pembuatan: 06 Des 2022 pada 08.33
--- Versi server: 10.1.38-MariaDB
--- Versi PHP: 7.3.2
+/*
+SQLyog Community v13.1.9 (64 bit)
+MySQL - 8.0.30 : Database - tokoku
+*********************************************************************
+*/
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
+/*!40101 SET NAMES utf8 */;
 
+/*!40101 SET SQL_MODE=''*/;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`tokoku` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
---
--- Database: `tokoku`
---
+USE `tokoku`;
 
--- --------------------------------------------------------
+/*Table structure for table `barang` */
 
---
--- Struktur dari tabel `barang`
---
+DROP TABLE IF EXISTS `barang`;
 
 CREATE TABLE `barang` (
-  `id_barang` int(11) NOT NULL,
+  `id_barang` int NOT NULL AUTO_INCREMENT,
   `nama_barang` varchar(35) NOT NULL,
   `harga` varchar(35) NOT NULL,
-  `stok` varchar(35) NOT NULL,
+  `stok` int NOT NULL,
   `gambar` varchar(255) NOT NULL,
-  `id_kategori` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `id_kategori` int NOT NULL,
+  PRIMARY KEY (`id_barang`)
+) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `barang`
---
+/*Data for the table `barang` */
 
-INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga`, `stok`, `gambar`, `id_kategori`) VALUES
-(80, 'one set outfit sweater', '110000', '15', 'bajucowo3.jpg', 17),
-(79, 'one set outfit ', '150000', '10', '9a1da13c9605825f1b560d5ca60e99f7.jpg', 17),
-(78, 'Cardigan korea', '45000', '15', 'baju4.jpg', 16),
-(84, 'Kemeja coklat', '70000', '20', 'bajucowo4.jpg', 17),
-(83, 'Jaket varsity', '65000', '10', 'baju cowo2.jpg', 17),
-(82, 'dress black', '125000', '10', 'dress2.jpg', 16),
-(81, 'dress white', '115000', '20', 'dress1.jpg', 16),
-(76, 'Jepit Aesthetic', '22000', '25', 'acc3.jpg', 19),
-(77, 'Cardigan kekinian', '50000', '15', 'baju1.jpg', 16),
-(74, 'Scrunchie', '25000', '20', 'acc2.jpg', 19),
-(75, 'Sunglasses', '20000', '15', 'acc1.jpg', 19),
-(85, 'dress anak', '95000', '20', 'bajuanak1.jpg', 18),
-(86, 'dress anak white', '100000', '20', 'bajuanak2.jpg', 18),
-(87, 'kaos anak', '75000', '25', 'bajuanak3.jpg', 18),
-(88, 'one set kids', '125000', '20', 'bajuanak4.jpg', 18);
+insert  into `barang`(`id_barang`,`nama_barang`,`harga`,`stok`,`gambar`,`id_kategori`) values 
+(89,'Kursi Roda','1500000',5,'df2cea73-0a46-46b4-83de-229ea02513be.jpg',20),
+(90,'Ibuprofen','5500',77,'223016_18-6-2023_23-51-47.png',16),
+(77,'Mefenamic Acid','4000',49,'a595d3ef0d62f12ec494fe0dae9f8906.jpg',16),
+(96,'Termometer','90000',29,'download (4).jpeg',19),
+(95,'Alat Tes Gula Darah','300000',15,'download (3).jpeg',19),
+(94,'Kain Kasa','2500',200,'download (2).jpeg',17),
+(93,'Sarung Tangan Medis','2500',198,'download (1).jpeg',17),
+(92,'Vitamin C IPI','12000',25,'download.png',18),
+(91,'Masker Medis','1500',150,'download.jpeg',17);
 
--- --------------------------------------------------------
+/*Table structure for table `kategori` */
 
---
--- Struktur dari tabel `kategori`
---
+DROP TABLE IF EXISTS `kategori`;
 
 CREATE TABLE `kategori` (
-  `id_kategori` int(11) NOT NULL,
-  `kategori` varchar(35) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `id_kategori` int NOT NULL AUTO_INCREMENT,
+  `kategori` varchar(35) NOT NULL,
+  PRIMARY KEY (`id_kategori`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `kategori`
---
+/*Data for the table `kategori` */
 
-INSERT INTO `kategori` (`id_kategori`, `kategori`) VALUES
-(19, 'Accessories'),
-(16, 'Female'),
-(17, 'Male'),
-(18, 'Kids');
+insert  into `kategori`(`id_kategori`,`kategori`) values 
+(16,'Obat - obatan'),
+(19,'Alat Tes Kesehatan'),
+(17,'Alat Medis Rumah Tangga'),
+(18,'Nutrisi dan Suplemen'),
+(20,'Alat Kesehatan');
 
--- --------------------------------------------------------
+/*Table structure for table `keranjang` */
 
---
--- Struktur dari tabel `keranjang`
---
+DROP TABLE IF EXISTS `keranjang`;
 
 CREATE TABLE `keranjang` (
-  `id_keranjang` int(11) NOT NULL,
+  `id_keranjang` int NOT NULL AUTO_INCREMENT,
   `harga_barang` varchar(25) NOT NULL,
-  `jumlah_beli` varchar(25) NOT NULL,
+  `jumlah_beli` int NOT NULL DEFAULT '0',
   `status` varchar(30) NOT NULL,
-  `waktu` varchar(50) NOT NULL,
-  `total` varchar(25) NOT NULL,
-  `id_barang` int(11) NOT NULL,
-  `id_pengguna` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `waktu` datetime DEFAULT NULL,
+  `total` float NOT NULL DEFAULT '0',
+  `id_barang` int NOT NULL,
+  `id_pengguna` int NOT NULL,
+  PRIMARY KEY (`id_keranjang`)
+) ENGINE=MyISAM AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `keranjang` */
 
---
--- Struktur dari tabel `pengguna`
---
+insert  into `keranjang`(`id_keranjang`,`harga_barang`,`jumlah_beli`,`status`,`waktu`,`total`,`id_barang`,`id_pengguna`) values 
+(88,'90000',1,'proses kirim','2024-11-06 11:23:06',90000,96,11),
+(87,'5500',1,'lunas','2024-11-06 10:35:04',5500,90,11);
+
+/*Table structure for table `pengguna` */
+
+DROP TABLE IF EXISTS `pengguna`;
 
 CREATE TABLE `pengguna` (
-  `id_pengguna` int(11) NOT NULL,
+  `id_pengguna` int NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
   `jenis_kelamin` varchar(20) NOT NULL,
   `tgl_lahir` varchar(20) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `hak` varchar(25) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `hak` varchar(25) NOT NULL,
+  PRIMARY KEY (`id_pengguna`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `pengguna`
---
+/*Data for the table `pengguna` */
 
-INSERT INTO `pengguna` (`id_pengguna`, `nama`, `jenis_kelamin`, `tgl_lahir`, `username`, `password`, `hak`) VALUES
-(6, 'Medisku', 'Perempuan', '2022-12-06', 'admin', 'ADMIN', 'admin'),
-(11, 'eldis', 'Perempuan', '2022-12-06', 'eldis', 'eldis', 'pengguna');
+insert  into `pengguna`(`id_pengguna`,`nama`,`jenis_kelamin`,`tgl_lahir`,`username`,`password`,`hak`) values 
+(6,'admin','Perempuan','2022-12-06','admin','admin','admin'),
+(11,'iwan','Laki - Laki','2022-12-06','user','user','pengguna'),
+(12,'tes','Laki - Laki','2024-11-16','aasf','asfsf','pengguna');
 
--- --------------------------------------------------------
+/*Table structure for table `transaksi` */
 
---
--- Struktur dari tabel `transaksi`
---
+DROP TABLE IF EXISTS `transaksi`;
 
 CREATE TABLE `transaksi` (
-  `id_transaksi` int(11) NOT NULL,
-  `waktu_transaksi` varchar(50) NOT NULL,
-  `subtotal` varchar(25) NOT NULL,
+  `id_transaksi` int NOT NULL AUTO_INCREMENT,
+  `waktu_transaksi` datetime NOT NULL,
+  `subtotal` bigint NOT NULL,
   `status_transaksi` varchar(30) NOT NULL,
   `alamat` varchar(40) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
   `rekening` varchar(100) NOT NULL,
-  `id_pengguna` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `id_pengguna` int NOT NULL,
+  PRIMARY KEY (`id_transaksi`)
+) ENGINE=MyISAM AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `transaksi`
---
+/*Data for the table `transaksi` */
 
-INSERT INTO `transaksi` (`id_transaksi`, `waktu_transaksi`, `subtotal`, `status_transaksi`, `alamat`, `no_hp`, `rekening`, `id_pengguna`) VALUES
-(64, 'Thursday, 16-06-2022 09:13:15pm', '80000', 'lunas', 'Ardini', '089112233445', '326735682641237', 9),
-(65, 'Sunday, 19-06-2022 04:30:24pm', '300000', 'lunas', 'Telang Indah', '999', '887878', 10),
-(66, 'Sunday, 19-06-2022 04:57:29pm', '120000', 'lunas', 'bkl', '0882669979', '790202882002', 10);
+insert  into `transaksi`(`id_transaksi`,`waktu_transaksi`,`subtotal`,`status_transaksi`,`alamat`,`no_hp`,`rekening`,`id_pengguna`) values 
+(69,'2024-11-06 10:35:04',5500,'lunas','rumah','01284','012840',11),
+(70,'2024-11-06 11:23:06',90000,'proses kirim','tes','33','32',11);
 
---
--- Indexes for dumped tables
---
-
---
--- Indeks untuk tabel `barang`
---
-ALTER TABLE `barang`
-  ADD PRIMARY KEY (`id_barang`);
-
---
--- Indeks untuk tabel `kategori`
---
-ALTER TABLE `kategori`
-  ADD PRIMARY KEY (`id_kategori`);
-
---
--- Indeks untuk tabel `keranjang`
---
-ALTER TABLE `keranjang`
-  ADD PRIMARY KEY (`id_keranjang`);
-
---
--- Indeks untuk tabel `pengguna`
---
-ALTER TABLE `pengguna`
-  ADD PRIMARY KEY (`id_pengguna`);
-
---
--- Indeks untuk tabel `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id_transaksi`);
-
---
--- AUTO_INCREMENT untuk tabel yang dibuang
---
-
---
--- AUTO_INCREMENT untuk tabel `barang`
---
-ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
-
---
--- AUTO_INCREMENT untuk tabel `kategori`
---
-ALTER TABLE `kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT untuk tabel `keranjang`
---
-ALTER TABLE `keranjang`
-  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
-
---
--- AUTO_INCREMENT untuk tabel `pengguna`
---
-ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT untuk tabel `transaksi`
---
-ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

@@ -56,7 +56,7 @@ $id = $_SESSION['id'];
         </div>
     </nav>
     <br><br>
-    <div class="container">
+    <div class="container" style="margin-bottom: 3rem;">
         <div>
             <a href="home.php"><br><br>< Kembali</a>
         </div>
