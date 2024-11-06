@@ -27,21 +27,23 @@ CREATE TABLE `barang` (
   `stok` int NOT NULL,
   `gambar` varchar(255) NOT NULL,
   `id_kategori` int NOT NULL,
-  PRIMARY KEY (`id_barang`)
-) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_barang`),
+  KEY `id_kategori` (`id_kategori`),
+  CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
 
 /*Data for the table `barang` */
 
 insert  into `barang`(`id_barang`,`nama_barang`,`harga`,`stok`,`gambar`,`id_kategori`) values 
+(77,'Mefenamic Acid','4000',49,'a595d3ef0d62f12ec494fe0dae9f8906.jpg',16),
 (89,'Kursi Roda','1500000',5,'df2cea73-0a46-46b4-83de-229ea02513be.jpg',20),
 (90,'Ibuprofen','5500',77,'223016_18-6-2023_23-51-47.png',16),
-(77,'Mefenamic Acid','4000',49,'a595d3ef0d62f12ec494fe0dae9f8906.jpg',16),
-(96,'Termometer','90000',29,'download (4).jpeg',19),
-(95,'Alat Tes Gula Darah','300000',15,'download (3).jpeg',19),
-(94,'Kain Kasa','2500',200,'download (2).jpeg',17),
-(93,'Sarung Tangan Medis','2500',198,'download (1).jpeg',17),
+(91,'Masker Medis','1500',150,'download.jpeg',17),
 (92,'Vitamin C IPI','12000',25,'download.png',18),
-(91,'Masker Medis','1500',150,'download.jpeg',17);
+(93,'Sarung Tangan Medis','2500',198,'download (1).jpeg',17),
+(94,'Kain Kasa','2500',200,'download (2).jpeg',17),
+(95,'Alat Tes Gula Darah','300000',15,'download (3).jpeg',19),
+(96,'Termometer','90000',29,'download (4).jpeg',19);
 
 /*Table structure for table `kategori` */
 
@@ -51,15 +53,15 @@ CREATE TABLE `kategori` (
   `id_kategori` int NOT NULL AUTO_INCREMENT,
   `kategori` varchar(35) NOT NULL,
   PRIMARY KEY (`id_kategori`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kategori` */
 
 insert  into `kategori`(`id_kategori`,`kategori`) values 
 (16,'Obat - obatan'),
-(19,'Alat Tes Kesehatan'),
 (17,'Alat Medis Rumah Tangga'),
 (18,'Nutrisi dan Suplemen'),
+(19,'Alat Tes Kesehatan'),
 (20,'Alat Kesehatan');
 
 /*Table structure for table `keranjang` */
@@ -75,14 +77,18 @@ CREATE TABLE `keranjang` (
   `total` float NOT NULL DEFAULT '0',
   `id_barang` int NOT NULL,
   `id_pengguna` int NOT NULL,
-  PRIMARY KEY (`id_keranjang`)
-) ENGINE=MyISAM AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_keranjang`),
+  KEY `id_barang` (`id_barang`),
+  KEY `id_pengguna` (`id_pengguna`),
+  CONSTRAINT `keranjang_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
+  CONSTRAINT `keranjang_ibfk_2` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`)
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
 
 /*Data for the table `keranjang` */
 
 insert  into `keranjang`(`id_keranjang`,`harga_barang`,`jumlah_beli`,`status`,`waktu`,`total`,`id_barang`,`id_pengguna`) values 
-(88,'90000',1,'proses kirim','2024-11-06 11:23:06',90000,96,11),
-(87,'5500',1,'lunas','2024-11-06 10:35:04',5500,90,11);
+(87,'5500',1,'lunas','2024-11-06 10:35:04',5500,90,11),
+(88,'90000',1,'proses kirim','2024-11-06 11:23:06',90000,96,11);
 
 /*Table structure for table `pengguna` */
 
@@ -97,7 +103,7 @@ CREATE TABLE `pengguna` (
   `password` varchar(20) NOT NULL,
   `hak` varchar(25) NOT NULL,
   PRIMARY KEY (`id_pengguna`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `pengguna` */
 
@@ -119,8 +125,10 @@ CREATE TABLE `transaksi` (
   `no_hp` varchar(15) NOT NULL,
   `rekening` varchar(100) NOT NULL,
   `id_pengguna` int NOT NULL,
-  PRIMARY KEY (`id_transaksi`)
-) ENGINE=MyISAM AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_transaksi`),
+  KEY `id_pengguna` (`id_pengguna`),
+  CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
 
 /*Data for the table `transaksi` */
 
