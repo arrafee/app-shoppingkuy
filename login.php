@@ -1,8 +1,16 @@
-<?php session_start();
+<?php 
+	session_start();
+	include "koneksi/config.php";
 
- 
-include "koneksi/config.php";
- ?>
+	if(isset($_SESSION['nama'])){
+		$hak = $_SESSION['hak'];
+		if($hak == "pengguna"){
+			echo "<script> window.location.href='pengguna/home.php' </script>";
+		} else if($hak == "admin"){
+			echo "<script> window.location.href='admin/home.php' </script>";
+		} 
+	}
+?>
 
 <html>
 <head>
@@ -11,28 +19,28 @@ include "koneksi/config.php";
 	<title> Login </title>
 	<link href="assets/img/keranjang.png" rel="shorcut icon">
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <style>
-    	.flat{
-    		border-radius: 0px;
-    	}
-	</style>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="background: #bae8e8;">
-<div class="container">
-	<div class="row">
-		<div class="col-sm-4">
-		</div>
-		<div class="col-sm-4">
-		<h2 class="page-header">Login</h2>
-			<form method="POST">
+<div>
+	<div class="row mt-5">
+		<div class="d-flex justify-content-center align-items-center flex-column bg-white p-5" style="width: 40%; margin: 0 auto; border-radius: 1rem;">
+			<h2 class="page-header">Login</h2>
+			<form method="POST" style="width: 80%;">
 				<div class="form-group">
-					<label>Username</label><br>
-					<input type="text" class="form-control flat" name="user" placeholder="Username" maxlength="30" required/><br>
-					<label>Password</label><br>
-					<input type="password" class="form-control flat" name="pass" placeholder="Password" maxlength="20" required/>
-					<br>
-					<button class="btn btn-warning flat" type="submit" name="login">Login</button> Atau <a href="daftar.php" class="btn btn-default flat">Daftar</a>
+					<div class="mb-2">
+						<label>Username</label>
+						<input type="text" class="form-control flat" name="user" placeholder="Username" maxlength="30" required/>
+					</div>
+					<div class="mb-3">
+						<label>Password</label>
+						<input type="password" class="form-control flat" name="pass" placeholder="Password" maxlength="20" required/>
+					</div>
+					<div class="d-flex align-items-center">
+						<button class="btn btn-warning flat mr-2" type="submit" name="login">Login</button> 
+						<span class="mr-2">Atau</span> 
+						<a href="daftar.php" class="btn btn-secondary">Daftar</a>
+					</div>
 				</div>	
 			</form>
 			<?php
@@ -64,8 +72,6 @@ include "koneksi/config.php";
 					<div class="alert alert-danger"> Login Gagal </div>
 				<?php } 
 			} ?>
-		</div>
-		<div class="col-sm-4">
 		</div>		
 	</div>	
 </div>

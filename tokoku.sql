@@ -117,7 +117,7 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id_pengguna`, `nama`, `jenis_kelamin`, `tgl_lahir`, `username`, `password`, `hak`) VALUES
-(6, 'ShoppingKuy', 'Perempuan', '2022-12-06', 'admin', 'ADMIN', 'admin'),
+(6, 'Medisku', 'Perempuan', '2022-12-06', 'admin', 'ADMIN', 'admin'),
 (11, 'eldis', 'Perempuan', '2022-12-06', 'eldis', 'eldis', 'pengguna');
 
 -- --------------------------------------------------------

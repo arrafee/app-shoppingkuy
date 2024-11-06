@@ -1,37 +1,40 @@
-<?php session_start();
-if(empty($_SESSION['nama'])){ ?>
-    <script> window.location.href='../index.php' </script>
-<?php }
-$nama = $_SESSION['nama'];
-if($_SESSION['hak'] == 'admin'){}else{ ?> <script> alert('Anda Bukan Admin!'); window.location.href='logout.php' </script> <?php }
+<?php 
+session_start();
 include "../koneksi/config.php";
-	//get id_barang
-	$id_barang = $_GET['id_barang'];
 
-	//hapus data barang dikeranjang
-	$f = "delete from keranjang where id_barang='$id_barang'";
-	$g = mysqli_query($connect, $f);
+if(empty($_SESSION['nama'])){
+    echo "<script> window.location.href='../index.php' </script>";
+}
+if($_SESSION['hak'] != 'admin'){
+    echo "<script> alert('Anda Bukan Admin!'); window.location.href='logout.php' </script>";
+}
 
-	//get data gambar
-	$h = "select * from barang where id_barang='$id_barang'";
-	$i = mysqli_query($connect, $h);
-	$j = mysqli_fetch_array($i);
-	$img = $j['gambar'];
-	//lokasi gambar
-	$target = '../image/$img';
-	//hapus gambar di folder image
-	if(file_exists($target)){
-		unlink($img);
-	}
+//get id_barang
+$id_barang = $_GET['id_barang'];
 
-	//hapus data barang
-	$k = "delete from barang where id_barang='$id_barang'";
-	$l = mysqli_query($connect, $k);
+//hapus data barang dikeranjang
+$sql_delete_keranjang = "delete from keranjang where id_barang='$id_barang'";
+$query_delete_keranjang = mysqli_query($connect, $sql_delete_keranjang);
 
-	//cek query
-	if($l){
-		echo "<script> window.location.href='barang.php' </script>";
-	}else{
-		echo "<script> alert('Terjadi Kesalahan Saat Menghapus Barang, Silahkan Ulangi'); window.location.href='barang.php' </script>";
-	}
-?>
+//get data gambar
+$sql_get_barang = "select * from barang where id_barang='$id_barang'";
+$query_get_barang = mysqli_query($connect, $sql_get_barang);
+$row = mysqli_fetch_array($query_get_barang);
+$img = $row['gambar'];
+//lokasi gambar
+$target = '../image/$img';
+//hapus gambar di folder image
+if(file_exists($target)){
+	unlink($img);
+}
+
+//hapus data barang
+$sql_delete_keranjang = "delete from barang where id_barang='$id_barang'";
+$query_delete_keranjang = mysqli_query($connect, $sql_delete_keranjang);
+
+//cek query
+if($query_delete_keranjang){
+	echo "<script> window.location.href='barang.php' </script>";
+}else{
+	echo "<script> alert('Terjadi Kesalahan Saat Menghapus Barang, Silahkan Ulangi'); window.location.href='barang.php' </script>";
+}

@@ -1,18 +1,21 @@
-s<?php session_start();
-if(empty($_SESSION['nama'])){ ?>
-    <script> window.location.href='../index.php' </script>
-<?php }
-$nama = $_SESSION['nama'];
-if($_SESSION['hak'] == 'admin'){}else{ ?> <script> alert('Anda Bukan Admin!'); window.location.href='logout.php' </script> <?php } 
-include "../koneksi/config.php";
- ?>
+<?php
+    session_start();
+    include "../koneksi/config.php";
+
+    if(empty($_SESSION['nama'])){
+        echo "<script> window.location.href='../index.php' </script>";
+    }
+    if($_SESSION['hak'] != 'admin'){
+        echo "<script> alert('Anda Bukan Admin!'); window.location.href='logout.php' </script>";
+    }
+?>
  <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopingKuy</title>
-    <link href="../assets/img/barley.jpeg" rel="shorcut icon">
+    <title>Medisku</title>
+    
     <!-- Bootstrap core CSS -->
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
     <!-- Datatables core CSS -->
@@ -28,12 +31,12 @@ include "../koneksi/config.php";
    <table id="tables" class="table table-responsive table-bordered table-striped">
     <thead>
       <tr>
-        <th style="text-align: center;"> Nama </th>
-        <th style="text-align: center;"> Tanggal </th>
-        <th style="text-align: center;"> Alamat Pengiriman</th>
-        <th style="text-align: center;"> No Telepon </th>
-        <th style="text-align: center;"> No Rekening </th>
-        <th style="text-align: center;"> Status </th>
+        <th style="text-align: center;">Nama</th>
+        <th style="text-align: center;">Tanggal</th>
+        <th style="text-align: center;">Alamat Pengiriman</th>
+        <th style="text-align: center;">No Telepon</th>
+        <th style="text-align: center;">No Rekening</th>
+        <th style="text-align: center;">Status</th>
       </tr>
     </thead>
     <?php

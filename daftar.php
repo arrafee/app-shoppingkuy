@@ -1,15 +1,17 @@
-<?php session_start();
-if(isset($_SESSION['nama'])){
-    $hak = $_SESSION['hak'];
-        if($hak == "pengguna"){ ?>
-            <script> window.location.href='pengguna/home.php' </script>
-        <?php }else if($hak == "admin"){ ?>
-            <script> window.location.href='admin/home.php' </script>
-        <?php }
-    ?>
-<?php }
-include "koneksi/config.php";
- ?>
+<?php 
+	session_start();
+	include "koneksi/config.php";
+
+	if(isset($_SESSION['nama'])){
+		$hak = $_SESSION['hak'];
+		if($hak == "pengguna"){
+			echo "<script> window.location.href='pengguna/home.php' </script>";
+		} else if($hak == "admin"){
+			echo "<script> window.location.href='admin/home.php' </script>";
+		} 
+	}
+?>
+
 <html>
 <head>
 	<meta charset="utf-8">
@@ -17,38 +19,42 @@ include "koneksi/config.php";
 	<title> Daftar </title>
 	<link href="assets/img/keranjang.png" rel="shorcut icon">
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <style>
-    	.flat{
-    		border-radius: 0px;
-    	}
-	</style>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="background: #bae8e8;">
-<div class="container">
-	<div class="row">
-		<div class="col-sm-4">
-		</div>
-		<div class="col-sm-4">
-		<h2 class="page-header">Daftar</h2>
-			<form method="POST">
+<div>
+	<div class="row mt-4">
+		<div class="d-flex justify-content-center align-items-center flex-column bg-white p-5" style="width: 40%; margin: 0 auto; border-radius: 1rem;">
+			<h2 class="page-header">Daftar</h2>
+			<form method="POST" style="width: 80%;"> 
 				<div class="form-group">
-					<label>Nama</label><br>
-					<input type="text"  class="form-control flat" name="nama" maxlength="20" placeholder="Nama" required title="nama harus berisi character"><br>
-					<label>Jenis Kelamin</label>
-					<select class="form-control flat" name="jenis_kelamin">
-						<option> Laki - Laki </option>
-						<option> Perempuan </option>
-					</select><br>
-					<label>Tanggal Lahir</label><br>
-					<input type="date" class="form-control flat" name="tgl_lahir" maxlength="20" required/><br>
-					<label>Username</label><br>
-					<input type="text" class="form-control flat" name="user" maxlength="20" placeholder="Username" required/><br>
-					<label>Password</label><br>
-					<input type="password" class="form-control flat" name="pass" maxlength="20" placeholder="Password" required/>
-					<br>
-					<button class="btn btn-success flat" type="submit" name="daftar">Daftar</button>
-					<a onclick="window.location.href='index.php'" class="btn btn-danger flat"> Batal </a>
+					<div class="mb-2">
+						<label>Nama</label>
+						<input type="text"  class="form-control" name="nama" maxlength="20" placeholder="Nama" required title="nama harus berisi character">
+					</div>
+					<div class="mb-2">
+						<label>Username</label>
+						<input type="text" class="form-control" name="user" maxlength="20" placeholder="Username" required/>
+					</div>
+					<div class="mb-2">
+						<label>Password</label>
+						<input type="password" class="form-control" name="pass" maxlength="20" placeholder="Password" required/>
+					</div>
+					<div class="mb-2">
+						<label>Jenis Kelamin</label>
+						<select class="form-control" name="jenis_kelamin">
+							<option> Laki - Laki </option>
+							<option> Perempuan </option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label>Tanggal Lahir</label>
+						<input type="date" class="form-control" name="tgl_lahir" maxlength="20" required/>
+					</div>
+					<div>
+						<button class="btn btn-success" type="submit" name="daftar">Daftar</button>
+						<a href="index.php" class="btn btn-danger text-white" style="cursor: pointer;"> Batal </a>
+					</div>
 				</div>	
 			</form>
 			<?php
@@ -68,8 +74,6 @@ include "koneksi/config.php";
 				}
 			?>
 		</div>
-		<div class="col-sm-4">
-		</div>		
 	</div>	
 </div>
 </body>

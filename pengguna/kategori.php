@@ -1,17 +1,23 @@
-<?php session_start();
-if(empty($_SESSION['nama'])){ ?>
-    <script> window.location.href='../index.php' </script>
-<?php }
-$nama = $_SESSION['nama'];
-if($_SESSION['hak'] == 'pengguna'){}else{ ?> <script> alert('Anda Bukan Pengguna!'); window.location.href='logout.php' </script> <?php }
+<?php
+session_start();
 include "../koneksi/config.php";
- ?>
+
+if(empty($_SESSION['nama'])){
+    echo "<script> window.location.href='../index.php' </script>";
+}
+if($_SESSION['hak'] != 'pengguna'){
+    echo "<script> alert('Anda Bukan Pengguna!'); window.location.href='logout.php' </script>";
+}
+
+$nama = $_SESSION['nama'];
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ShoppingKuy</title>
+    <title> Medisku</title>
     <!-- Bootstrap core CSS -->
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
      <!-- custom CSS here -->
@@ -22,7 +28,7 @@ include "../koneksi/config.php";
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -30,108 +36,95 @@ include "../koneksi/config.php";
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"> ShoppingKuy </a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="home.php">Home</a></li>
-                    <li><a href="keranjang.php" title="Keranjang Belanja"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-                    <li><a href="pengiriman.php" title="Pengiriman"><span class="glyphicon glyphicon-send"></span></a></li>
-                    <li><a href="#" title="Riwayat Transaksi"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+                    <li><a class="navbar-brand" href="home.php">Medisku</a></li>
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="keranjang.php" title="Keranjang Belanja">Keranjang</a></li>                    
+                    <li><a href="pengiriman.php" title="Pengiriman">Pengiriman</a></li>
+                    <li><a href="riwayat_transaksi.php" title="Riwayat Transaksi">Riwayat</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href=""><?php echo ucwords("$nama"); ?></a></li>
+                    <li><a href="user.php"><?php echo ucwords($nama); ?></a></li>
                     <li><a href="logout.php">Logout</a></li>
-
-                        </ul>
-                    </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container-fluid -->
     </nav>
-<br><br><br><br>
+    <br><br><br><br>
     <div class="container">
-      
         <div class="row">
-
             <div class="col-md-9">
-                    
-              <div class="jumbotron">
-                  <h1> ShoppingKuy <width="20%" height="20%"></h1>
-                  <p>
-                    Let's find your outfit!
-                  </p><br><br><br>
-                  <p>
-                    <a href="#" onclick="$('#get').animatescroll({scrollSpeed:2000,easing:'easeOutBack'});" class="btn btn-primary btn-lg">Belanja</a>
-                  </p>
-                  <div id="get"></div>
-                </div><hr>
-              <div class="row">
-                <?php
-                    $id_kategori = $_GET['kategori'];
-                    $page = (isset($_GET['page']))? $_GET['page'] : 1;
-                    $limit = 9;
-                    $limit_start = ($page - 1) * $limit;
-                    $sql1 = "select * from barang where id_kategori='$id_kategori' LIMIT $limit_start, $limit";
-                    $query1 = mysqli_query($connect,$sql1);
-                    $cek = mysqli_num_rows($query1);
-                if($cek > 0){
-                    $no = 1;
-                    while ($row = mysqli_fetch_array($query1)){ ?>
-                    <div class="col-md-4 text-center col-sm-6">
-                        <div class="thumbnail">
-                            <img src="<?php echo "../image/$row[gambar]"; ?>" width="50%" height="30%">
-                            <div class="caption">
-                                <h4><?php echo ucwords("$row[nama_barang]"); ?> <span class="badge"><?php echo "$row[stok]"; ?></span></h4>
-                                <p style="color: red;">Rp. <?php echo "$row[harga]" ?> </p>
-                                <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#myModal<?php echo"$no"; ?>">Beli</button>
+                <div class="jumbotron">
+                    <h1>Medisku</h1>
+                    <p>Temukan kebutuhan kesehatan anda disini!</p>
+                </div>
+                <hr>
+                <div class="row">
+                    <?php
+                        $id_kategori = $_GET['kategori'];
+                        $page = (isset($_GET['page']))? $_GET['page'] : 1;
+                        $limit = 9;
+                        $limit_start = ($page - 1) * $limit;
+                        $sql1 = "select * from barang where id_kategori='$id_kategori' LIMIT $limit_start, $limit";
+                        $query1 = mysqli_query($connect,$sql1);
+                        $cek = mysqli_num_rows($query1);
+                        $no = 1;
+                    if($cek > 0){
+                        while ($row = mysqli_fetch_array($query1)){ ?>
+                        <div class="col-md-3 text-center col-sm-6">
+                            <div class="thumbnail">
+                                <img src="../image/<?php echo $row["gambar"]; ?>" style="width: max-content; height: 11rem; object-fit: cover; margin-bottom: 12px">
+                                <h4><?php echo ucwords($row["nama_barang"]); ?></h4>
+                                <div>stok: <?php echo $row["stok"]; ?></div>
+                                <p style="color: red;">Rp. <?php echo $row["harga"] ?> </p>
+                                <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#myModal<?php echo $no; ?>">Beli</button>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.col -->
-                    <div id="myModal<?php echo "$no"; ?>" class="modal fade" role="dialog">
-                       <div class="modal-dialog">
-                        <!-- konten modal-->
-                        <div class="modal-content">
-                            <!-- heading modal -->
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title"><?php echo ucwords("$row[nama_barang]"); ?></h4>
-                            </div>
-                            <!-- body modal -->
-                            <div class="modal-body">
-                                <form method="POST" action="simpan_keranjang.php">
-                                    <input type="number" class="form-control" name="jumlah" maxlength="2" value="1" placeholder="Masukkan Jumlah Pembelian.." required/>
-                                    <input type="hidden" name="harga" value="<?php echo "$row[harga]"; ?>">
-                                    <input type="hidden" name="id_barang" value="<?php echo "$row[id_barang]"; ?>">
-                                    <input type="hidden" name="stok" value="<?php echo "$row[stok]"; ?>">
-                            </div>
-                            <!-- footer modal -->
-                            <div class="modal-footer">
-                                    <a class="btn btn-default" data-dismiss="modal">Batal</a>
-                                    <input type="submit" class="btn btn-primary" value="OK">
-                                </form>
+                        <!-- modal beli -->
+                        <div id="myModal<?php echo "$no"; ?>" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- konten modal-->
+                                <div class="modal-content">
+                                    <!-- heading modal -->
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><?php echo ucwords("$row[nama_barang]"); ?></h4>
+                                    </div>
+                                    <!-- body modal -->
+                                    <div class="modal-body">
+                                        <form method="POST" action="simpan_keranjang.php">
+                                            <input type="number" class="form-control" name="jumlah" maxlength="2" value="1" placeholder="Masukkan Jumlah Pembelian.." required/>
+                                            <input type="hidden" name="harga" value="<?php echo $row["harga"]; ?>">
+                                            <input type="hidden" name="id_barang" value="<?php echo "$row[id_barang]"; ?>">
+                                            <input type="hidden" name="stok" value="<?php echo $row["stok"]; ?>">
+                                    </div>
+                                    <!-- footer modal -->
+                                    <div class="modal-footer">
+                                            <a class="btn btn-default" data-dismiss="modal">Batal</a>
+                                            <input type="submit" class="btn btn-primary" value="OK">
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                       </div>
-                    </div>
-                <?php $no++; }
-                }else{ ?>
-                    <center><img src="../assets/img/kosong.png"><h2>Barang Belum Tersedia</h2></center>
-                <?php } ?>
+                    <?php $no++; }
+                    }else{ ?>
+                        <div style="text-align: center;">
+                            <img src="../assets/img/kosong.png">
+                            <h2>Barang Tidak Tersedia!!</h2>
+                        </div>
+                    <?php } ?>
                 </div>
 
-                        <center>
-                <!-- /.row -->
-                <div class="row">
+                <div class="row" style="text-align: center;">
                     <ul class="pagination">
                     <!-- LINK NUMBER -->
                     <?php
                     // Buat query untuk menghitung semua jumlah data
-                    $q2 = "select * from barang where id_kategori='$id_kategori'";
+                    $q2 = "select * from barang";
                     $sql2 = mysqli_query($connect, $q2); // Eksekusi querynya
                     $get_jumlah = mysqli_num_rows($sql2);
                     
@@ -149,10 +142,7 @@ include "../koneksi/config.php";
                    ?>
                     </ul>
                 </div>
-                <!-- /.row -->
-            </center>
-            <!-- /.col -->
-        </div>
+            </div>
 
             <div class="col-md-3">
                 <div>

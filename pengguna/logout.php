@@ -1,4 +1,4 @@
-<?php session_start();
+<?php 
+session_start();
 session_destroy();
-?>
-<script> window.location.href='../index.php' </script>
+echo "<script> window.location.href='../index.php' </script>";
